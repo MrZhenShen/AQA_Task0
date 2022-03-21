@@ -14,7 +14,13 @@ public class Calculator {
     }
 
     public static double divide(int a, int b) {
-        return a / b;
+        try {
+            if (b == 0) throw new MyArithmeticException();
+        } catch (MyArithmeticException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return (double) a / b;
     }
 }
 
