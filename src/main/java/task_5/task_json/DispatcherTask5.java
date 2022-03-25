@@ -1,4 +1,4 @@
-package task_5;
+package task_5.task_json;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class DispatcherTask5 {
-    private static final String PACKAGE_PATH = "/Users/user/Desktop/ITSU/QA Automation/workspace/task0/src/main/java/task_5/";
+    private static final String PACKAGE_PATH = "/Users/user/Desktop/ITSU/QA Automation/workspace/task0/src/main/java/task_5/task_json/";
     public static void main(String[] args) {
         String inputString = "";
         try {

@@ -1,4 +1,4 @@
-package task_5;
+package task_5.task_json;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
