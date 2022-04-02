@@ -1,4 +1,4 @@
-package task_6.model;
+package task_6_7.model;
 
 import javax.persistence.*;
 

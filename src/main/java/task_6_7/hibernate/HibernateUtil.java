@@ -1,11 +1,11 @@
-package task_6.hibernate;
+package task_6_7.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import task_6.model.Client;
-import task_6.model.Device;
+import task_6_7.model.Client;
+import task_6_7.model.Device;
 
 import java.io.FileInputStream;
 import java.io.IOException;
