@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="all test SUITE" verbose="5" data-provider-thread-count="6">
+
+    <test name="test_1 - DataProvider" thread-count="10" parallel="methods">
+        <classes>
+            <class name="task_8.unit.calc.CalcAddTest"/>
+        </classes>
+    </test>
+
+    <parameter name="a" value="1"/>
+    <parameter name="b" value="2"/>
+    <test name="test_2 - Parameters" thread-count="10" parallel="methods">
+        <classes>
+            <class name="task_8.unit.calc.CalcSubtractTest"/>
+        </classes>
+    </test>
+
+    <test name="test_3 - DataProvider" thread-count="10" parallel="methods">
+        <classes>
+            <class name="task_8.unit.calc.CalcMultiplyTest"/>
+        </classes>
+    </test>
+
+    <test name="test_4 - DataProvider" thread-count="10" parallel="methods">
+        <classes>
+            <class name="task_8.unit.calc.CalcDivideTest"/>
+        </classes>
+    </test>
+</suite>
