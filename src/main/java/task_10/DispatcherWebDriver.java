@@ -16,10 +16,9 @@ public class DispatcherWebDriver {
 
     public static void main(String[] args) {
         try {
-
             driver.get("https://www.duolingo.com/");
 
-            auth(" ", " ");
+            auth("mrzhenshen@gmail.com", "union1908");
             System.out.println("next");
             takeTask();
             play();
@@ -29,37 +28,18 @@ public class DispatcherWebDriver {
         }
     }
 
-    public static void auth(String login, String password) {
-        String loginXPath = "//*[@id=\"root\"]/div/div/span[1]/div/div[1]/div[2]/div[2]/button";
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(loginXPath))).isEnabled();
-        driver.findElement(By.xpath(loginXPath))
-                .click();
+    static void auth(String login, String password) {
+        click("//*[@id=\"root\"]/div/div/span[1]/div/div[1]/div[2]/div[2]/button");
 
-        driver.findElement(By.xpath("//*[@id=\"overlays\"]/div[5]/div/div/form/div[1]/div[1]/div[1]/label/div/input"))
-                .sendKeys(login);
+        sendKeys("//*[@id=\"overlays\"]/div[4]/div/div/form/div[1]/div[1]/div[1]/label/div/input", login, 20);
+        sendKeys("//*[@id=\"overlays\"]/div[4]/div/div/form/div[1]/div[1]/div[2]/label/div[1]/input", password, 20);
 
-        driver.findElement(By.xpath("//*[@id=\"overlays\"]/div[5]/div/div/form/div[1]/div[1]/div[2]/label/div[1]/input"))
-                .sendKeys(password);
-
-        driver.findElement(By.xpath("//*[@id=\"overlays\"]/div[5]/div/div/form/div[1]/button"))
-                .click();
+        click("//*[@id=\"overlays\"]/div[4]/div/div/form/div[1]/button");
     }
 
     public static void takeTask() {
-        String quizXPath = "//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div";
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.elementToBeClickable(By.xpath(quizXPath)))
-                .isEnabled();
-        driver.findElement(By.xpath(quizXPath))
-                .click();
-
-        String takeQuizBtnXPath = "//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div/div[2]/div/div[1]/div[5]/a[2]";
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.elementToBeClickable(By.xpath(takeQuizBtnXPath)))
-                .isEnabled();
-        driver.findElement(By.xpath(takeQuizBtnXPath))
-                .click();
+        click("//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div", 20);
+        click("//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div/div[2]/div/div[1]/div[5]/a[2]");
     }
 
     private static void play() {
@@ -84,5 +64,30 @@ public class DispatcherWebDriver {
 
         driver.findElement(By.xpath("//*[@id=\"session/PlayerFooter\"]/div/div[2]/button"))
                 .click();
+    }
+
+
+    static void click(String xPath, int maxDelay) {
+        new WebDriverWait(driver, Duration.ofSeconds(maxDelay))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xPath)))
+                .isEnabled();
+        driver.findElement(By.xpath(xPath))
+                .click();
+    }
+
+    static void click(String xPath) {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xPath)))
+                .isEnabled();
+        driver.findElement(By.xpath(xPath))
+                .click();
+    }
+
+    static void sendKeys(String xPath, String text, int maxDelay) {
+        new WebDriverWait(driver, Duration.ofSeconds(maxDelay))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xPath)))
+                .isEnabled();
+        driver.findElement(By.xpath(xPath))
+                .sendKeys(text);
     }
 }
