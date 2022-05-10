@@ -10,7 +10,7 @@ public class ButtonElement extends DecorElement {
 
     public void click() {
         System.out.printf("Try click [%s]\n", webElement.getText());
-        waitForMeVisible(3000L);
+        waitForMe();
         webElement.click();
     }
 }

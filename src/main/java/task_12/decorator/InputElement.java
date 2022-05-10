@@ -10,7 +10,7 @@ public class InputElement extends DecorElement {
 
     public void input(String text) {
         System.out.printf("Try input text [\"%s\"] to [%s]\n", text, webElement.getAttribute("placeholder"));
-        waitForMeVisible(3000L);
+        waitForMe();
         webElement.sendKeys(text);
     }
 }

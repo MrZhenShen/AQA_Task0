@@ -1,7 +1,6 @@
 package task_12;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.testng.annotations.*;
 import task_12.bo.AuthBOFactory;
 
@@ -10,7 +9,7 @@ public class AuthPOFactoryTest {
 
     @BeforeTest
     void init() {
-        driver = new SafariDriver();
+        driver = BrowserFactory.getSafariDriver();
     }
 
     @AfterTest
