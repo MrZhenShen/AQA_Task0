@@ -3,7 +3,7 @@
 
     <test name="test_1 - DataProvider" thread-count="10" parallel="methods">
         <classes>
-            <class name="task_8.unit.calc.CalcAddTest"/>
+            <class name="tasks.task_8.unit.calc.CalcAddTest"/>
         </classes>
     </test>
 
@@ -11,19 +11,19 @@
     <parameter name="b" value="2"/>
     <test name="test_2 - Parameters" thread-count="10" parallel="methods">
         <classes>
-            <class name="task_8.unit.calc.CalcSubtractTest"/>
+            <class name="tasks.task_8.unit.calc.CalcSubtractTest"/>
         </classes>
     </test>
 
     <test name="test_3 - DataProvider" thread-count="10" parallel="methods">
         <classes>
-            <class name="task_8.unit.calc.CalcMultiplyTest"/>
+            <class name="tasks.task_8.unit.calc.CalcMultiplyTest"/>
         </classes>
     </test>
 
     <test name="test_4 - DataProvider" thread-count="10" parallel="methods">
         <classes>
-            <class name="task_8.unit.calc.CalcDivideTest"/>
+            <class name="tasks.task_8.unit.calc.CalcDivideTest"/>
         </classes>
     </test>
 </suite>

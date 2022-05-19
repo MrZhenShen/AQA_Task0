@@ -1,11 +1,10 @@
-package duolingoTestFramework.bo;
+package tasks.task_11.bo;
 
-import duolingoTestFramework.po.LearnDashboardPO;
-import duolingoTestFramework.po.LogInPO;
-import duolingoTestFramework.po.WelcomePO;
-import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import tasks.task_11.po.LearnDashboardPO;
+import tasks.task_11.po.LogInPO;
+import tasks.task_11.po.WelcomePO;
 
 public class AuthBO {
     private final WebDriver driver;
@@ -17,38 +16,37 @@ public class AuthBO {
         this.driver = driver;
     }
 
-    @Step
     public AuthBO goToDuolingo() {
         welcomePO = new WelcomePO(driver);
         return this;
     }
 
-    @Step
     public AuthBO goToLogIn() {
         logInPO = welcomePO.clickLogIn();
         return this;
     }
 
-    @Step
     public AuthBO fillLogin(String login) {
         logInPO.fillLogin(login);
         return this;
     }
 
-    @Step
     public AuthBO fillPassword(String password) {
         logInPO.fillPassword(password);
         return this;
     }
 
-    @Step
     public AuthBO clickLogIn() {
         learnDashboardPO = logInPO.clickLogIn();
         return this;
     }
 
-    @Step
     public void validateLogIn() {
-        Assert.assertEquals(learnDashboardPO.getPageTitle(), "Duolingo - Найкращий у світі спосіб вивчити англійську мову", "Unsuccessful auth");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(learnDashboardPO.getPageTitle(), "Duolingo - The world's best way to learn Polish", "unsuccessful auth");
     }
 }

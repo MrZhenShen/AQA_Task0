@@ -3,3 +3,7 @@ mvn clean install exec:java -Dexec.mainClass="task_5.stream.DispatcherTaskStream
 
 #task_9
 https://docs.google.com/document/d/1-yvU42hdwVt_eXKsQPIGsN-Ws3O91eBYqgjiBnpewEU/edit?usp=sharing
+
+#task_14 - allure report run
+mvn clean test
+allure serve -h localhost

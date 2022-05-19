@@ -1,6 +1,6 @@
 package duolingoTestFramework.bo;
 
-import duolingoTestFramework.Translator;
+import duolingoTestFramework.util.Translator;
 import duolingoTestFramework.po.QuizPO;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;

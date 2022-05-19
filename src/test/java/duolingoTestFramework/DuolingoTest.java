@@ -3,12 +3,13 @@ package duolingoTestFramework;
 import duolingoTestFramework.bo.AuthBO;
 import duolingoTestFramework.bo.DashboardBO;
 import duolingoTestFramework.bo.QuizBO;
+import duolingoTestFramework.util.BrowserFactory;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import tasks.task_14.AllureListener;
+// eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjYzMDcyMDAwMDAsImlhdCI6MCwic3ViIjo0MzM1NzgxNTB9.AOkqQML8lotzAOu_FJ666vXl7263mo9iQhYjZERJqto
 
+@Listeners({AllureListener.class})
 public class DuolingoTest {
     WebDriver driver;
 
@@ -25,7 +26,7 @@ public class DuolingoTest {
     @DataProvider
     Object[][] credentials() {
         return new Object[][] {
-                {"mrzhenshen@gmail.com", "union1908"}
+                {"zhebog@gmail.com", "qwerty1234"}
         };
     }
 
