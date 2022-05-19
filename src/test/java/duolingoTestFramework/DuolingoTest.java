@@ -7,7 +7,6 @@ import duolingoTestFramework.util.BrowserFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import tasks.task_14.AllureListener;
-// eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjYzMDcyMDAwMDAsImlhdCI6MCwic3ViIjo0MzM1NzgxNTB9.AOkqQML8lotzAOu_FJ666vXl7263mo9iQhYjZERJqto
 
 @Listeners({AllureListener.class})
 public class DuolingoTest {
