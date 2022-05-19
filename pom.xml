@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <testng.testng>7.5</testng.testng>
+        <testng.testng>7.4.0</testng.testng>
         <selenium.version>4.1.3</selenium.version>
         <maven.surefire>3.0.0-M5</maven.surefire>
         <aspectj.version>1.9.8.RC3</aspectj.version>
