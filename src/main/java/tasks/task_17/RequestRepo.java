@@ -1,30 +1,62 @@
 package tasks.task_17;
 
+import tasks.task_17.model.Request;
+import tasks.task_17.model.RequestMethod;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestRepo {
+import static credentials.TrelloCredentials.KEY;
+import static credentials.TrelloCredentials.TOKEN;
+import static tasks.task_17.TrelloAPI.*;
 
-    static String key = "06aacd672653757cb826c81e4605ab02";
-    static String token = "53b31836ef880c26c79d755b48c2298c3fd2c0a94094adc266f5411e97423a1e";
+public class RequestRepo {
 
     public static Request buildCreateBoardRequest(String boardName) {
         Request request = new Request();
 
-        request.setUrl("https://api.trello.com/1/boards/?name="
-                + boardName + "&key=" +
-                key + "&token="
-                + token +
-                "");
-
-        request.setBody("{\"idOrganization\":\"60fefe65beb2b76caa04761c\"}");
-
         Map<String, String> headers = new HashMap<>();
         headers.put("content-type", "application/json");
+        request.setUrl(String.format(URL_CREATE_BOARD.url, boardName, KEY.code, TOKEN.code));
+        request.setBody("");
         request.setHeaders(headers);
         request.setMethod(RequestMethod.POST);
         return request;
     }
 
+    public static Request buildGetBoardRequest(String boardId) {
+        Request request = new Request();
 
+        Map<String, String> headers = new HashMap<>();
+        headers.put("content-type", "application/json");
+        request.setUrl(String.format(URL_GET_BOARD.url, boardId, KEY.code, TOKEN.code));
+        request.setBody("");
+        request.setHeaders(headers);
+        request.setMethod(RequestMethod.GET);
+        return request;
+    }
+
+    public static Request buildUpdateBoardRequest(String boardId, String newName) {
+        Request request = new Request();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("content-type", "application/json");
+        request.setUrl(String.format(URL_UPDATE_BOARD_NAME.url, boardId, KEY.code, TOKEN.code, newName));
+        request.setBody("");
+        request.setHeaders(headers);
+        request.setMethod(RequestMethod.PUT);
+        return request;
+    }
+
+    public static Request buildDeleteBoardRequest(String boardId) {
+        Request request = new Request();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("content-type", "application/json");
+        request.setUrl(String.format(URL_DELETE_BOARD.url, boardId, KEY.code, TOKEN.code));
+        request.setBody("");
+        request.setHeaders(headers);
+        request.setMethod(RequestMethod.DELETE);
+        return request;
+    }
 }

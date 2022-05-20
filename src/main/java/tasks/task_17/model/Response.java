@@ -1,4 +1,4 @@
-package tasks.task_17;
+package tasks.task_17.model;
 
 public class Response {
     String body;

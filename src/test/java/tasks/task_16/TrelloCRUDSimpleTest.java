@@ -1,9 +1,12 @@
 package tasks.task_16;
 
+import credentials.TrelloCredentials;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import tasks.task_17.TrelloAPI;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,17 +14,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static credentials.TrelloCredentials.KEY;
+import static credentials.TrelloCredentials.TOKEN;
+import static tasks.task_17.TrelloAPI.*;
 import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfValidationFails;
 
 public class TrelloCRUDSimpleTest {
-    private static final String CREATE_BOARD_URL = "https://api.trello.com/1/boards/?name=%s&key=%s&token=%s";
-    private static final String GET_BOARD = "https://api.trello.com/1/boards/%s?key=%s&token=%s";
-    private static final String UPDATE_BOARD_NAME = "https://api.trello.com/1/boards/%s?key=%s&token=%s&name=%s";
-    private static final String DELETE_BOARD = "https://api.trello.com/1/boards/%s?key=%s&token=%s";
-
-    private static final String KEY = "8d55b54ac504852ad63f35f3223e88e5";
-    private static final String TOKEN = "b140d591545a706b99f4b8b840d7b955d51dace5140c738f778c247ba5f568b4";
-    private static final String NEW_BOARD_NAME = "Test";
     private String boardId;
 
     @BeforeTest
@@ -32,7 +30,7 @@ public class TrelloCRUDSimpleTest {
     @Test
     void createBoard() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(String.format(CREATE_BOARD_URL, NEW_BOARD_NAME, KEY, TOKEN)))
+                .uri(URI.create(String.format(URL_CREATE_BOARD.url, "Test", KEY.code, TOKEN.code)))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -47,7 +45,7 @@ public class TrelloCRUDSimpleTest {
     @Test(dependsOnMethods = "createBoard")
     void getBoard() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(String.format(GET_BOARD, boardId, KEY, TOKEN)))
+                .uri(URI.create(String.format(URL_GET_BOARD.url, boardId, KEY.code, TOKEN.code)))
                 .GET()
                 .build();
 
@@ -62,7 +60,7 @@ public class TrelloCRUDSimpleTest {
     @Test(dependsOnMethods = "getBoard")
     void updateBoard() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(String.format(UPDATE_BOARD_NAME, boardId, KEY, TOKEN, "NewTest")))
+                .uri(URI.create(String.format(URL_UPDATE_BOARD_NAME.url, boardId, KEY.code, TOKEN.code, "NewTest")))
                 .PUT(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -76,7 +74,7 @@ public class TrelloCRUDSimpleTest {
     @Test(dependsOnMethods = "updateBoard")
     void deleteBoard() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(String.format(DELETE_BOARD, boardId, KEY, TOKEN)))
+                .uri(URI.create(String.format(URL_DELETE_BOARD.url, boardId, KEY.code, TOKEN.code)))
                 .DELETE()
                 .build();
 

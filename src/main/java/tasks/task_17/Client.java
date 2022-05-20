@@ -1,5 +1,8 @@
 package tasks.task_17;
 
+import tasks.task_17.model.Request;
+import tasks.task_17.model.Response;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,15 +19,21 @@ public class Client {
                 .newBuilder()
                 .uri(new URI(request.getUrl()));
 
-        request.getHeaders().entrySet().forEach(e -> {
-            builder.header(e.getKey(), e.getValue());
-        });
+        request.getHeaders().forEach(builder::header);
 
         switch (request.getMethod()) {
-            case POST: builder.POST(HttpRequest.BodyPublishers.ofString(request.getBody(), StandardCharsets.UTF_8));
-            break;
-            case GET: builder.GET();
-            break;
+            case POST:
+                builder.POST(HttpRequest.BodyPublishers.ofString(request.getBody(), StandardCharsets.UTF_8));
+                break;
+            case GET:
+                builder.GET();
+                break;
+            case PUT:
+                builder.PUT(HttpRequest.BodyPublishers.ofString(request.getBody(), StandardCharsets.UTF_8));
+                break;
+            case DELETE:
+                builder.DELETE();
+                break;
         }
 
         System.out.println("Call\t" + request);
