@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import tasks.task_12.BrowserFactory;
 import tasks.task_12.bo.AuthBOFactory;
+import static credentials.DuolingoCredentials.*;
 
 @Listeners(UniversalVideoListener.class)
 public class AuthPOFactoryVideoTest {
@@ -26,8 +27,8 @@ public class AuthPOFactoryVideoTest {
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin("mrzhenshen@gmail.com")
-                .fillPassword("union1908")
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn()
                 .validateLogIn();
     }

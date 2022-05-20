@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import tasks.task_12.BrowserFactory;
 import tasks.task_12.bo.AuthBOFactory;
+import static credentials.DuolingoCredentials.*;
 
 public class AuthPOFactoryTest {
     WebDriver driver;
@@ -24,8 +25,8 @@ public class AuthPOFactoryTest {
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin("mrzhenshen@gmail.com")
-                .fillPassword("union1908")
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn()
                 .validateLogIn();
     }

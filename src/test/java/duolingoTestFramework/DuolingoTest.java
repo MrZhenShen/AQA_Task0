@@ -7,6 +7,7 @@ import duolingoTestFramework.util.BrowserFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import tasks.task_14.AllureListener;
+import static credentials.DuolingoCredentials.*;
 
 @Listeners({AllureListener.class})
 public class DuolingoTest {
@@ -22,33 +23,26 @@ public class DuolingoTest {
         driver.close();
     }
 
-    @DataProvider
-    Object[][] credentials() {
-        return new Object[][] {
-                {"zhebog@gmail.com", "qwerty1234"}
-        };
-    }
-
-    @Test(dataProvider = "credentials")
-    void authTest(String[] credentials) {
+    @Test
+    void authTest() {
         AuthBO authBO = new AuthBO(driver);
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin(credentials[0])
-                .fillPassword(credentials[1])
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn()
                 .validateLogIn();
     }
 
-    @Test(dataProvider = "credentials")
-    void findQuizTest(String[] credentials) {
+    @Test
+    void findQuizTest() {
         AuthBO authBO = new AuthBO(driver);
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin(credentials[0])
-                .fillPassword(credentials[1])
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn();
 
         DashboardBO dashboardBO = new DashboardBO(driver);
@@ -56,14 +50,14 @@ public class DuolingoTest {
                 .validateQuizExistence("Basics 1");
     }
 
-    @Test(dataProvider = "credentials")
-    void languageQuizTest(String[] credentials) {
+    @Test
+    void languageQuizTest() {
         AuthBO authBO = new AuthBO(driver);
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin(credentials[0])
-                .fillPassword(credentials[1])
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn();
 
         DashboardBO dashboardBO = new DashboardBO(driver);
@@ -83,14 +77,14 @@ public class DuolingoTest {
                 .validateCorrectAnswer();
     }
 
-    @Test(dataProvider = "credentials")
-    void isEnableAnswerInputAfterSkipTest(String[] credentials) {
+    @Test
+    void isEnableAnswerInputAfterSkipTest() {
         AuthBO authBO = new AuthBO(driver);
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin(credentials[0])
-                .fillPassword(credentials[1])
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn();
 
         DashboardBO dashboardBO = new DashboardBO(driver);

@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import static credentials.DuolingoCredentials.*;
 
 import java.time.Duration;
 
@@ -41,7 +42,7 @@ public class ElementTest {
 
     @Test
     void validateTest() {
-        auth("mrzhenshen@gmail.com", "union1908");
+        auth(LOGIN.data, PASSWORD.data);
         String quizXPath = "//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div";
         new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(quizXPath)))

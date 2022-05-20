@@ -6,6 +6,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import tasks.task_11.bo.AuthBO;
+import static credentials.DuolingoCredentials.*;
 
 public class AuthPOTest {
     WebDriver driver;
@@ -26,8 +27,8 @@ public class AuthPOTest {
 
         authBO.goToDuolingo()
                 .goToLogIn()
-                .fillLogin("mrzhenshen@gmail.com")
-                .fillPassword("union1908")
+                .fillLogin(LOGIN.data)
+                .fillPassword(PASSWORD.data)
                 .clickLogIn()
                 .validateLogIn();
     }

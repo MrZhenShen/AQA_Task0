@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import static credentials.DuolingoCredentials.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,7 +19,7 @@ public class DispatcherWebDriver {
         try {
             driver.get("https://www.duolingo.com/");
 
-            auth("mrzhenshen@gmail.com", "union1908");
+            auth(LOGIN.data, PASSWORD.data);
             System.out.println("next");
             takeTask();
             play();
