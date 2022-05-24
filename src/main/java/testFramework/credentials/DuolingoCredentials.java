@@ -1,4 +1,4 @@
-package credentials;
+package testFramework.credentials;
 
 public enum DuolingoCredentials {
     LOGIN(""),
