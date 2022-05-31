@@ -9,8 +9,8 @@ public class InputElement extends DecorElement {
     }
 
     public void input(String text) {
-        System.out.printf("Try input text [\"%s\"] to [%s]\n", text, webElement.getAttribute("placeholder"));
         waitForMe();
+        System.out.printf("Try input text [\"%s\"] to [%s]\n", text, webElement.getAttribute("placeholder"));
         webElement.sendKeys(text);
     }
 }

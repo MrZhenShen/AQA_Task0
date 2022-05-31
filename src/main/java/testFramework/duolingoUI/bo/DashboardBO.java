@@ -1,42 +1,48 @@
 package testFramework.duolingoUI.bo;
 
+import io.qameta.allure.Step;
 import testFramework.duolingoUI.po.LearnDashboardPO;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
-import java.util.List;
 
 public class DashboardBO {
     private final WebDriver driver;
     private LearnDashboardPO learnDashboardPO;
-    private List<WebElement> quizList;
 
     public DashboardBO(WebDriver driver) {
         this.driver = driver;
-    }
-
-    public DashboardBO initDashboardPage() {
         learnDashboardPO = new LearnDashboardPO(driver);
-        return this;
     }
 
+    @Step
+    public SettingsBO goToCoachPage() {
+        learnDashboardPO.clickEditGoal();
+        return new SettingsBO(driver);
+    }
+
+    @Step
     public DashboardBO selectQuiz(String quizTitle) {
         learnDashboardPO.clickQuiz(quizTitle);
         return this;
     }
 
-    public DashboardBO takeQuiz() {
+    @Step
+    public QuizBO takeQuiz() {
         learnDashboardPO.selectQuizMode();
-        return this;
+        return new QuizBO(driver);
     }
 
-    public DashboardBO printQuizzes() {
-        quizList = learnDashboardPO.getQuizzesList();
-        quizList.forEach(skill -> System.out.print(skill.getText() + ", "));
-        return this;
+    @Step
+    public void validateLogIn() {
+        Assert.assertTrue(learnDashboardPO.isHeaderDisplayed(), "Unsuccessful auth");
     }
 
+    @Step
+    public void validateGoal(int expectedXP) {
+        Assert.assertEquals(learnDashboardPO.getGoal(), expectedXP, "Unexpected goal");
+    }
+
+    @Step
     public void validateQuizExistence(String quizTitle) {
         Assert.assertTrue(learnDashboardPO.findQuiz(quizTitle), "Such [" + quizTitle + "] does not exist");
     }

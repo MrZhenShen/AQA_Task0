@@ -47,5 +47,4 @@ public class MyFieldDecorator extends DefaultFieldDecorator {
         }
         return clazz;
     }
-
 }

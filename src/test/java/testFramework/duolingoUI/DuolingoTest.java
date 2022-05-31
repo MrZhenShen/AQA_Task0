@@ -3,100 +3,99 @@ package testFramework.duolingoUI;
 import testFramework.duolingoUI.bo.AuthBO;
 import testFramework.duolingoUI.bo.DashboardBO;
 import testFramework.duolingoUI.bo.QuizBO;
+import testFramework.duolingoUI.bo.SettingsBO;
+import testFramework.duolingoUI.listener.SuiteListener;
+import testFramework.duolingoUI.listener.TestListener;
 import testFramework.duolingoUI.util.BrowserFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import tasks.task_14.AllureListener;
+import testFramework.duolingoUI.listener.AllureListener;
+
 import static testFramework.credentials.DuolingoCredentials.*;
 
-@Listeners({AllureListener.class})
+@Listeners({
+        AllureListener.class,
+        TestListener.class,
+        SuiteListener.class
+})
 public class DuolingoTest {
-    WebDriver driver;
+    private WebDriver driver;
 
-    @BeforeTest
+    private AuthBO authBO;
+    private DashboardBO dashboardBO;
+    private SettingsBO settingsBO;
+    private QuizBO quizBO;
+
+    @BeforeSuite
     void init() {
         driver = BrowserFactory.getSafariDriver();
     }
 
-    @AfterTest
+    @AfterSuite
     void end() {
         driver.close();
     }
 
     @Test
     void authTest() {
-        AuthBO authBO = new AuthBO(driver);
+        authBO = new AuthBO(driver);
 
-        authBO.goToDuolingo()
+        dashboardBO = authBO
+                .goToDuolingo()
                 .goToLogIn()
                 .fillLogin(LOGIN.data)
                 .fillPassword(PASSWORD.data)
-                .clickLogIn()
+                .clickLogIn();
+
+        dashboardBO
                 .validateLogIn();
     }
 
-    @Test
+    @Test(dependsOnMethods = "authTest")
+    void changeGoal() {
+        settingsBO = dashboardBO
+                .goToCoachPage();
+
+        settingsBO
+                .selectGoal("Regular")
+                .save()
+                .goToDashboard();
+
+        dashboardBO
+                .validateGoal(settingsBO.getXpExpected());
+    }
+
+    @Test(dependsOnMethods = "changeGoal")
     void findQuizTest() {
-        AuthBO authBO = new AuthBO(driver);
-
-        authBO.goToDuolingo()
-                .goToLogIn()
-                .fillLogin(LOGIN.data)
-                .fillPassword(PASSWORD.data)
-                .clickLogIn();
-
-        DashboardBO dashboardBO = new DashboardBO(driver);
-        dashboardBO.printQuizzes()
+        dashboardBO
                 .validateQuizExistence("Basics 1");
     }
 
-    @Test
-    void languageQuizTest() {
-        AuthBO authBO = new AuthBO(driver);
-
-        authBO.goToDuolingo()
-                .goToLogIn()
-                .fillLogin(LOGIN.data)
-                .fillPassword(PASSWORD.data)
-                .clickLogIn();
-
-        DashboardBO dashboardBO = new DashboardBO(driver);
-        dashboardBO
-                .initDashboardPage()
+    @Test(dependsOnMethods = "findQuizTest")
+    void checkQuizTypes() {
+        quizBO = dashboardBO
                 .selectQuiz("Basics 1")
                 .takeQuiz();
 
-        QuizBO quizBO = new QuizBO(driver);
+        quizBO.validateDiffQuizTypes(10);
+    }
+
+    @Test(dependsOnMethods = "checkQuizTypes")
+    void isEnableAnswerInputAfterSkipTest() {
         quizBO
-                .initQuizPage()
+                .skipTask()
+                .validateIsEnableAnswerInput();
+    }
+
+    @Test(dependsOnMethods = "isEnableAnswerInputAfterSkipTest")
+    void languageQuizTest() {
+        quizBO
+                .goToNextTask()
                 .readTask()
                 .checkLanguage()
                 .translate()
                 .fillAnswer()
                 .submitAnswer()
                 .validateCorrectAnswer();
-    }
-
-    @Test
-    void isEnableAnswerInputAfterSkipTest() {
-        AuthBO authBO = new AuthBO(driver);
-
-        authBO.goToDuolingo()
-                .goToLogIn()
-                .fillLogin(LOGIN.data)
-                .fillPassword(PASSWORD.data)
-                .clickLogIn();
-
-        DashboardBO dashboardBO = new DashboardBO(driver);
-        dashboardBO
-                .initDashboardPage()
-                .selectQuiz("Basics 1")
-                .takeQuiz();
-
-        QuizBO quizBO = new QuizBO(driver);
-        quizBO
-                .initQuizPage()
-                .skipTask()
-                .validateIsEnableAnswerInput();
     }
 }

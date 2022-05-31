@@ -1,17 +1,14 @@
 package testFramework.duolingoUI.bo;
 
-import testFramework.duolingoUI.po.LearnDashboardPO;
 import testFramework.duolingoUI.po.LogInPO;
 import testFramework.duolingoUI.po.WelcomePO;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
 public class AuthBO {
     private final WebDriver driver;
     private WelcomePO welcomePO;
     private LogInPO logInPO;
-    private LearnDashboardPO learnDashboardPO;
 
     public AuthBO(WebDriver driver) {
         this.driver = driver;
@@ -42,13 +39,8 @@ public class AuthBO {
     }
 
     @Step
-    public AuthBO clickLogIn() {
-        learnDashboardPO = logInPO.clickLogIn();
-        return this;
-    }
-
-    @Step
-    public void validateLogIn() {
-        Assert.assertEquals(learnDashboardPO.getPageTitle(), "Duolingo - Найкращий у світі спосіб вивчити англійську мову", "Unsuccessful auth");
+    public DashboardBO clickLogIn() {
+        logInPO.clickLogIn();
+        return new DashboardBO(driver);
     }
 }

@@ -32,9 +32,8 @@ public class LogInPO {
         passwordInput.input(password);
     }
 
-    public LearnDashboardPO clickLogIn() {
+    public void clickLogIn() {
         logInButton.click();
-        return new LearnDashboardPO(driver);
     }
 
 }
