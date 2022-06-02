@@ -1,5 +1,6 @@
 package testFramework.unsplashAPI;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
 import testFramework.unsplashAPI.model.Request;
 import testFramework.unsplashAPI.model.Response;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class Client {
     static HttpClient httpClient = HttpClient.newHttpClient();
 
+    @Step
     public static Response execute(Request request) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest.Builder builder = HttpRequest
                 .newBuilder()

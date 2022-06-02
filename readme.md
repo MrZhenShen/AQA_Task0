@@ -30,13 +30,35 @@ Before run tests get API Key and Token from [Trello API](https://trello.com/app-
 
 # Test Framework
 
+In order to run all test
+
+``
+mvn test
+``
+
 ### Unsplash API
 
-1. Cope Access and Security from https://unsplash.com/developers and paste into each accordingly
-   in [UnsplashCredentials.java](src/main/java/testFramework/credentials/UnsplashCredentials.java)
-2. In Redirect URI & Permissions section cope Authorization code and paste into AUTH_CODE
+1. Copy Access and Security from https://unsplash.com/developers and paste each accordingly
+   into [credentials.txt](credentials.txt)
+2. In Redirect URI & Permissions section copy Authorization code and paste into AUTH_CODE
 3. To run framework in project terminal type following code:
 
 ``
-mvn -P UnsplashTest test
+mvn test -Dtest="UnsplashTest"
+``
+
+### Duolingo UI
+
+1. Type your Duolingo login and password into [credentials.txt](credentials.txt)
+2. In [Google cloud](https://console.cloud.google.com/home/dashboard) create new project
+3. Type in terminal following code
+
+``
+gcloud auth activate-service-account {service account email} --key-file="{project .json file with google cloud credentials}" --project={google cloud project title}
+``
+
+3. To run framework in project terminal type following code:
+
+``
+mvn test -Dtest="DuolingoTest" -Dgoal=Basic -Dskill="Basics 1"
 ``

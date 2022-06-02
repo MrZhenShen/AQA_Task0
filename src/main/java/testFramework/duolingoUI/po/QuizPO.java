@@ -5,7 +5,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import testFramework.duolingoUI.decorator.ButtonElement;
 import testFramework.duolingoUI.decorator.InputElement;
 import testFramework.duolingoUI.decorator.MyFieldDecorator;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,14 +18,13 @@ import java.util.Set;
 
 public class QuizPO {
     private final WebDriver driver;
-    private final String xPathSentence = "//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/div[2]/div[1]/div/span/div";
 
     public QuizPO(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new MyFieldDecorator(driver), this);
     }
 
-    @FindBy(xpath = xPathSentence)
+    @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/div[2]/div[1]/div/span/div")
     private List<WebElement> words;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/div/textarea")
@@ -48,16 +46,19 @@ public class QuizPO {
     private WebElement quizWrapper;
 
     public String readTask() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        getSpecificTask(QuizType.TRANSLATE);
+        while (words.size() == 0) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        StringBuilder sentence = new StringBuilder();
-
-        for (int wordsIndex = 1; wordsIndex < words.size() + 1; wordsIndex++) {
-            sentence.append(driver.findElement(By.xpath(xPathSentence + "[" + wordsIndex + "]")).getText()).append(" ");
+        StringBuffer sentence = new StringBuffer();
+        for(WebElement word : words) {
+            sentence.append(word.getText()).append(" ");
         }
+        System.out.println(sentence);
         return sentence.toString();
     }
 
@@ -78,6 +79,11 @@ public class QuizPO {
     }
 
     public void clickSkip() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         skipButton.click();
     }
 
@@ -86,7 +92,16 @@ public class QuizPO {
     }
 
     public boolean isEnableAnswerInput() {
+        getSpecificTask(QuizType.TRANSLATE);
+        clickSkip();
         return answerInput.isEnable();
+    }
+
+    public void getSpecificTask(QuizType type) {
+        while (getQuizType() != type) {
+            clickSkip();
+            clickContinue();
+        }
     }
 
     public QuizType getQuizType() {
@@ -108,23 +123,17 @@ public class QuizPO {
         }
     }
 
-    public Set<QuizType> getQuizTypesInSkill(int quizAmount) {
-        QuizType[] quizTypes = new QuizType[quizAmount];
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public boolean hasSkillDifferentQuizzes(int quizAmount) {
+        Set<QuizType> uniqueQuizzes = new HashSet<>();
         for (int i = 0; i < quizAmount; i++) {
-            quizTypes[i] = getQuizType();
-            clickSkip();
-            clickContinue();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            uniqueQuizzes.add(getQuizType());
+            if (uniqueQuizzes.size() == 1) {
+                clickSkip();
+                clickContinue();
+            } else {
+                return true;
             }
         }
-        return new HashSet<>(List.of(quizTypes));
+        return false;
     }
 }

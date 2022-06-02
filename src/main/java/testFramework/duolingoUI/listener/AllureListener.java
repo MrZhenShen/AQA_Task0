@@ -19,16 +19,16 @@ public class AllureListener implements ITestListener {
 
     @Attachment(value = "Page Screen", type = "image/png")
     private byte[] addScreen() {
-        return ((TakesScreenshot) BrowserFactory.getSafariDriver()).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) BrowserFactory.getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
     @Attachment(value = "Page Source", type = "text/plain")
     private String addDOM() {
-        return BrowserFactory.getSafariDriver().getPageSource();
+        return BrowserFactory.getWebDriver().getPageSource();
     }
 
     @Attachment(value = "Page URL", type = "text/plain")
     private String addCurrentURL() {
-        return BrowserFactory.getSafariDriver().getCurrentUrl();
+        return BrowserFactory.getWebDriver().getCurrentUrl();
     }
 }

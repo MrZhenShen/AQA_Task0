@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import testFramework.credentials.CredentialsFileReader;
 import testFramework.credentials.UnsplashCredentials;
 import testFramework.unsplashAPI.model.Response;
 import testFramework.unsplashAPI.model.Token;
@@ -17,6 +18,8 @@ public class UnsplashTest {
 
     @BeforeSuite
     void getToken() throws URISyntaxException, IOException, InterruptedException {
+        CredentialsFileReader.setupCredentials(UnsplashCredentials.class);
+
         Response response = Client.execute(RequestRepo.buildAuthRequest());
         Token token = Client.parseJSONToObject(response, Token.class);
         UnsplashCredentials.AUTH_TOKEN.setCode(token.getAccess_token());

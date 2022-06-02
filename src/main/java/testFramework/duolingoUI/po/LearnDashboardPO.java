@@ -21,16 +21,16 @@ public class LearnDashboardPO {
     @FindBy(className = "_1888P")
     private List<WebElement> skills;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div/div[2]/div[1]/div/div[2]/div[1]/div/div[1]/div/div[2]/div/div[1]/div[5]/a")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div > div._33Mo9 > div._2PVaI > div > div._3YEom > div:nth-child(1) > div > div:nth-child(1) > div > div._3uS_y.eIZ_c > div > div._1KUxv._1GJUD._3lagd._1HSah > div._2I_Id > a")
     private List<WebElement> startButton;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/div[3]")
     private WebElement header;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div/div[1]/div[2]/div/div[1]/a")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div > div._1YfQ8 > div._2O43A._3ZuGY > div > div._1K5oY._23dOD > a")
     private ButtonElement editGoalButton;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div/div[1]/div[2]/div/div[2]/div[2]/div[2]/div[2]")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div > div._1YfQ8 > div._2O43A._3ZuGY > div > div.dx6CP > div._3XQNj > div.MEmKK > div._15-md")
     private WebElement goalXP;
 
     public List<WebElement> getQuizzesList() {

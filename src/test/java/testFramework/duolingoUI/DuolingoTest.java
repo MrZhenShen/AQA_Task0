@@ -1,5 +1,7 @@
 package testFramework.duolingoUI;
 
+import testFramework.credentials.CredentialsFileReader;
+import testFramework.credentials.DuolingoCredentials;
 import testFramework.duolingoUI.bo.AuthBO;
 import testFramework.duolingoUI.bo.DashboardBO;
 import testFramework.duolingoUI.bo.QuizBO;
@@ -10,6 +12,7 @@ import testFramework.duolingoUI.util.BrowserFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import testFramework.duolingoUI.listener.AllureListener;
+import testFramework.duolingoUI.util.QuizType;
 
 import static testFramework.credentials.DuolingoCredentials.*;
 
@@ -26,9 +29,15 @@ public class DuolingoTest {
     private SettingsBO settingsBO;
     private QuizBO quizBO;
 
+    private String skill;
+    private String goal;
+
     @BeforeSuite
     void init() {
-        driver = BrowserFactory.getSafariDriver();
+        goal = System.getProperty("goal", "Basic");
+        skill = System.getProperty("skill", "Basics 1");
+        CredentialsFileReader.setupCredentials(DuolingoCredentials.class);
+        driver = BrowserFactory.setupSafariDriver();
     }
 
     @AfterSuite
@@ -57,7 +66,7 @@ public class DuolingoTest {
                 .goToCoachPage();
 
         settingsBO
-                .selectGoal("Regular")
+                .selectGoal(goal)
                 .save()
                 .goToDashboard();
 
@@ -67,35 +76,34 @@ public class DuolingoTest {
 
     @Test(dependsOnMethods = "changeGoal")
     void findQuizTest() {
-        dashboardBO
-                .validateQuizExistence("Basics 1");
+        dashboardBO.validateQuizExistence(skill);
     }
 
     @Test(dependsOnMethods = "findQuizTest")
-    void checkQuizTypes() {
+    void languageQuizTest() {
         quizBO = dashboardBO
-                .selectQuiz("Basics 1")
+                .selectQuiz(skill)
                 .takeQuiz();
 
-        quizBO.validateDiffQuizTypes(10);
-    }
-
-    @Test(dependsOnMethods = "checkQuizTypes")
-    void isEnableAnswerInputAfterSkipTest() {
         quizBO
-                .skipTask()
-                .validateIsEnableAnswerInput();
-    }
-
-    @Test(dependsOnMethods = "isEnableAnswerInputAfterSkipTest")
-    void languageQuizTest() {
-        quizBO
-                .goToNextTask()
+                .goToNextTask(QuizType.TRANSLATE)
                 .readTask()
                 .checkLanguage()
                 .translate()
                 .fillAnswer()
                 .submitAnswer()
                 .validateCorrectAnswer();
+    }
+
+    @Test(dependsOnMethods = "languageQuizTest")
+    void checkQuizTypes() {
+        quizBO
+                .goToNextTask()
+                .validateDiffQuizTypes(10);
+    }
+
+    @Test(dependsOnMethods = "checkQuizTypes")
+    void isEnableAnswerInputAfterSkipTest() {
+        quizBO.validateIsDisableAnswerInput();
     }
 }

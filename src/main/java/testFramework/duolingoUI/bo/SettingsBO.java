@@ -19,9 +19,9 @@ public class SettingsBO {
     }
 
     @Step
-    public SettingsBO selectGoal(String name) {
+    public SettingsBO selectGoal(String goal) {
         coachPO = new CoachPO(driver);
-        xpExpected = coachPO.clickOnGoal(name);
+        xpExpected = coachPO.clickOnGoal(goal);
         return this;
     }
 

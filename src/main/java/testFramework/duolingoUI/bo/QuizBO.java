@@ -1,6 +1,7 @@
 package testFramework.duolingoUI.bo;
 
 import io.qameta.allure.Step;
+import testFramework.duolingoUI.util.QuizType;
 import testFramework.duolingoUI.util.Translator;
 import testFramework.duolingoUI.po.QuizPO;
 import org.openqa.selenium.WebDriver;
@@ -70,8 +71,14 @@ public class QuizBO {
     }
 
     @Step
+    public QuizBO goToNextTask(QuizType type) {
+        quizPO.getSpecificTask(type);
+        return this;
+    }
+
+    @Step
     public void validateDiffQuizTypes(int quizAmount) {
-        Assert.assertNotEquals(quizPO.getQuizTypesInSkill(quizAmount).size(), 1, "All quizzes in skill were the same");
+        Assert.assertTrue(quizPO.hasSkillDifferentQuizzes(quizAmount), "All quizzes in skill were the same");
     }
 
     @Step
@@ -80,7 +87,7 @@ public class QuizBO {
     }
 
     @Step
-    public void validateIsEnableAnswerInput() {
+    public void validateIsDisableAnswerInput() {
         Assert.assertFalse(quizPO.isEnableAnswerInput(), "User is able to type an answer after seeing correct answer after skip task");
     }
 }

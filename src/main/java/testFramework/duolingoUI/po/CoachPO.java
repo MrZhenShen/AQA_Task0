@@ -20,29 +20,29 @@ public class CoachPO {
         PageFactory.initElements(new MyFieldDecorator(driver), this);
     }
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div[2]/div[1]/div/div[2]/div/label")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div._33Mo9 > div._2PVaI > div > div._2Pkxr > div > label")
     private List<WebElement> goals;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div[2]/div[1]/div/div[1]/button")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div._33Mo9 > div._2PVaI > div > div._Bmuv > button")
     private ButtonElement saveButton;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[4]/div/div[2]/div[1]/div/div[1]/button/span")
+    @FindBy(css = "#root > div > div._3W86r._1Xlh1 > div > div._33Mo9 > div._2PVaI > div > div._Bmuv > button > span")
     private WebElement saveButtonText;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[3]/div[2]/div[1]/a")
+    @FindBy(css = "a[data-test=\"home-nav\"]")
     private ButtonElement homePageButton;
 
     public int clickOnGoal(String name) {
         waitEnable(goals, 5);
         for (WebElement goal : goals) {
-            String goalDesc = goal.getText();
-            if (goalDesc.startsWith(name)) {
+            List<WebElement> goalSpans = goal.findElements(By.tagName("span"));
+            if (goalSpans.get(0).getText().equals(name)) {
                 if (goal.findElement(By.tagName("input")).isSelected()) {
                     System.out.printf("Goal [%s] is already selected\n", name);
                     throw new IllegalArgumentException();
                 }
                 goal.click();
-                return Integer.parseInt(goalDesc.split(" ")[0].substring(name.length()));
+                return Integer.parseInt(goalSpans.get(1).getText().split("\\s")[0]);
             }
         }
         return -1;

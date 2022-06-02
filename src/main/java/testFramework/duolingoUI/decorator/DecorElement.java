@@ -14,7 +14,7 @@ public class DecorElement {
     }
 
     public void waitForMe() {
-        new WebDriverWait(BrowserFactory.getSafariDriver(), Duration.ofSeconds(20))
+        new WebDriverWait(BrowserFactory.getWebDriver(), Duration.ofSeconds(20))
                 .until(ExpectedConditions.elementToBeClickable(webElement))
                 .isEnabled();
     }

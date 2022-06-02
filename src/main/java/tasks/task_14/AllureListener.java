@@ -1,6 +1,5 @@
 package tasks.task_14;
 
-import testFramework.duolingoUI.util.BrowserFactory;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
