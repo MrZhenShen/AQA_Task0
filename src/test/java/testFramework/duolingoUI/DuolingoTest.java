@@ -1,7 +1,5 @@
 package testFramework.duolingoUI;
 
-import testFramework.credentials.CredentialsFileReader;
-import testFramework.credentials.DuolingoCredentials;
 import testFramework.duolingoUI.bo.AuthBO;
 import testFramework.duolingoUI.bo.DashboardBO;
 import testFramework.duolingoUI.bo.QuizBO;
@@ -13,8 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import testFramework.duolingoUI.listener.AllureListener;
 import testFramework.duolingoUI.util.QuizType;
-
-import static testFramework.credentials.DuolingoCredentials.*;
+import testFramework.hibernate.HibernateClient;
+import testFramework.model.DuolingoCred;
 
 @Listeners({
         AllureListener.class,
@@ -32,11 +30,26 @@ public class DuolingoTest {
     private String skill;
     private String goal;
 
+    @DataProvider
+    private Object[][] credentials() {
+        int id = 0;
+        try {
+            id = Integer.parseInt(System.getProperty("credId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        DuolingoCred duolingoCred = HibernateClient.read(DuolingoCred.class, id);
+
+        return new Object[][]
+                {
+                        {duolingoCred.getLogin(), duolingoCred.getPassword()}
+                };
+    }
+
     @BeforeSuite
     void init() {
         goal = System.getProperty("goal", "Basic");
         skill = System.getProperty("skill", "Basics 1");
-        CredentialsFileReader.setupCredentials(DuolingoCredentials.class);
         driver = BrowserFactory.setupSafariDriver();
     }
 
@@ -45,15 +58,15 @@ public class DuolingoTest {
         driver.close();
     }
 
-    @Test
-    void authTest() {
+    @Test(dataProvider = "credentials")
+    void authTest(String[] credentials) {
         authBO = new AuthBO(driver);
 
         dashboardBO = authBO
                 .goToDuolingo()
                 .goToLogIn()
-                .fillLogin(LOGIN.data)
-                .fillPassword(PASSWORD.data)
+                .fillLogin(credentials[0])
+                .fillPassword(credentials[1])
                 .clickLogIn();
 
         dashboardBO

@@ -14,13 +14,13 @@ import static testFramework.credentials.UnsplashCredentials.*;
 public class RequestRepo {
 
     @Step
-    public static Request buildAuthRequest() {
+    public static Request buildAuthRequest(String accessKey, String secretKey, String authCode) {
         UnsplashAPI api = AUTH;
         Request request = new Request();
 
         Map<String, String> headers = new HashMap<>();
         headers.put("content-type", "application/json");
-        request.setUrl(String.format(api.url, ACCESS_KEY.code, SECRET_KEY.code, "urn:ietf:wg:oauth:2.0:oob", "authorization_code", AUTH_CODE.code));
+        request.setUrl(String.format(api.url, accessKey, secretKey, "urn:ietf:wg:oauth:2.0:oob", "authorization_code", authCode));
         request.setBody("");
         request.setHeaders(headers);
         request.setMethod(api.method);

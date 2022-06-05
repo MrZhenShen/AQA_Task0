@@ -44,7 +44,7 @@ mvn test
 3. To run framework in project terminal type following code:
 
 ``
-mvn test -Dtest="UnsplashTest"
+mvn test -Dtest="UnsplashTest" -DcredId=0 -DauthCode={code}
 ``
 
 ### Duolingo UI
@@ -60,5 +60,5 @@ gcloud auth activate-service-account {service account email} --key-file="{projec
 3. To run framework in project terminal type following code:
 
 ``
-mvn test -Dtest="DuolingoTest" -Dgoal=Basic -Dskill="Basics 1"
+mvn test -Dtest="DuolingoTest" -Dgoal=Basic -Dskill="Basics 1" -DcredId=0
 ``

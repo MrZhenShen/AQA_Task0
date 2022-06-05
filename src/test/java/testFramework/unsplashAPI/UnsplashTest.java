@@ -5,8 +5,9 @@ import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import testFramework.credentials.CredentialsFileReader;
 import testFramework.credentials.UnsplashCredentials;
+import testFramework.hibernate.HibernateClient;
+import testFramework.model.UnsplashCred;
 import testFramework.unsplashAPI.model.Response;
 import testFramework.unsplashAPI.model.Token;
 
@@ -16,11 +17,23 @@ import java.net.URISyntaxException;
 public class UnsplashTest {
     private String IDCollection;
 
-    @BeforeSuite
+    @BeforeSuite()
     void getToken() throws URISyntaxException, IOException, InterruptedException {
-        CredentialsFileReader.setupCredentials(UnsplashCredentials.class);
+        int id = 0;
+        try {
+            id = Integer.parseInt(System.getProperty("credId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        String authCode;
+        authCode = System.getProperty("authCode", "-1");
+        if(authCode.equals("-1")) {
+            throw new IllegalArgumentException();
+        }
 
-        Response response = Client.execute(RequestRepo.buildAuthRequest());
+        UnsplashCred unsplashCred = HibernateClient.read(UnsplashCred.class, id);
+        Response response = Client.execute(RequestRepo.buildAuthRequest(unsplashCred.getAccessKey(), unsplashCred.getSecretKey(), authCode));
+
         Token token = Client.parseJSONToObject(response, Token.class);
         UnsplashCredentials.AUTH_TOKEN.setCode(token.getAccess_token());
     }
